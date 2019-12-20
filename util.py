@@ -443,6 +443,8 @@ def csv2dict(file):
         reader = csv.DictReader(f)
         for idx, row in enumerate(reader):
             dic[idx] = dict(row)
+            if idx == 5000:
+                break
     return dic
 
 
