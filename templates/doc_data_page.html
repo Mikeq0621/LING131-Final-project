@@ -1,0 +1,40 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+    <title>2018 Movie Search</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+          integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+</head>
+
+<body>
+<div class="container">
+    <div class="card shadow-lg mx-auto my-5" style="border-radius: 1.5rem !important;">
+        <div class="card-body">
+            <h2 class="card-title text-center mt-4 mb-5">{{ data['song'] }}</h2>
+            <div class="col mx-auto">
+                <table class="table table-borderless">
+                    <tr>
+                        <th scope="row">Artist</th>
+                        <td>{{ data['artist'] }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Lyric</th>
+                        {% autoescape false %}
+                        <td>{{ data['text'] }}</td>
+                        {% endautoescape %}
+                    </tr>
+                </table>
+                <input type="button" value="Back" onclick="javascript:history.back()"
+                       class="btn btn-primary" style="border-radius: 1.5rem !important;"/>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

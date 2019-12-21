@@ -13,36 +13,36 @@ def parse_query_str(query_str):
     return [term for term in [stem(token) for token in word_tokenize(query_str)] if
             (not is_stopwords(term) and term in postings_list)]
 
-    # query_terms = []
-    # skipped_terms = []
-    # unknown_terms = []
-    # for term in [stem(token) for token in word_tokenize(query)]:
-    #     if is_stopwords(term):
-    #         skipped_terms.append(term)
-    #     elif term not in postings_list:
-    #         unknown_terms.append(term)
-    #     else:
-    #         query_terms.append(term)
-    # return query_terms, skipped_terms, unknown_terms
 
-
-def get_largest_cos_score(query_terms, largest=10):
-    scores = {}
+def get_largest_score_doc(query_terms, page_idx, largest=10):
+    matched_docs = {}  # {id: [score, [matched_terms]]}
     for term in query_terms:
         # query_tf_idf = get_tf_idf_dict({0: {'text': query_terms}})
-        for idx in postings_list.get(term, []):
-            if idx not in scores:
-                scores[idx] = [0, []]
-            # scores[idx][0] += query_tf_idf[term][0] * tf_idf_norm_dict[term][idx]
-            scores[idx][0] += tf_idf_norm_dict[term][idx]
-            scores[idx][1].append(term)
-    for idx in scores:
-        scores[idx][0] /= cos_norm_list[idx]
-        scores[idx][1] = [term for term in query_terms if term not in scores[idx][1]]
-    largest_score = heapq.nlargest(largest, scores.items(), lambda x: [1][0])
-    return largest_score, len(scores)
+        for i in postings_list.get(term, []):
+            if i not in matched_docs:
+                matched_docs[i] = [0, []]
+            # matched_docs[i][0] += query_tf_idf[term][0] * tf_idf_norm_dict[term][i]
+            matched_docs[i][0] += tf_idf_norm_dict[term][i]
+            matched_docs[i][1].append(term)
+    for i in matched_docs:
+        matched_docs[i][0] /= cos_norm_list[i]
+        # matched_docs[i][1] = [term for term in query_terms if term not in matched_docs[i][1]]
+    largest_score_docs = heapq.nlargest(page_idx * largest, matched_docs.items(), lambda x: [1][0])  # sort by score
+    return largest_score_docs, len(matched_docs)
 
 
-if __name__ == '__main__':
-    s = 'hello how are you'
-    get_largest_cos_score(parse_query_str(s))
+def get_corpus_data(i):
+    return corpus.get(i)
+
+
+def get_doc_snippet(doc):
+    """
+    Return a snippet for the results page.
+    Needs to include a title and a short description.
+    Your snippet does not have to include any query terms, but you may want to think about implementing
+    that feature. Consider the effect of normalization of index terms (e.g., stemming), which will affect
+    the ease of matching query terms to words in the text.
+    """
+    data = get_corpus_data(doc[0])
+    # song id, song name, artist, lyric snippet, result score, matched terms
+    return doc[0], data['song'], data['artist'], data['text'].replace('\n', '<br>'), round(doc[1][0], 5), doc[1][1]
