@@ -4,7 +4,7 @@ import heapq
 from helper import *
 
 now = datetime.datetime.now()
-clear_index()
+# clear_index()
 corpus = get_song_corpus()
 stemmed_corpus = get_stemmed_song_corpus()
 postings_list = get_postings_list(stemmed_corpus)

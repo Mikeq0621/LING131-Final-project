@@ -4,8 +4,7 @@ from util import *
 
 SONG_CORPUS = 'data/song_test.json'
 STEMMED_SONG_CORPUS = 'data/song_stemmed.json'
-POSTINGS_LIST = 'data/postings_list.jso' \
-                'n'
+POSTINGS_LIST = 'data/postings_list.json'
 TF_IDF_DICT = 'data/tf_idf_dict.json'
 TF_IDF_NORM_DICT = 'data/tf_idf_norm_dict.json'
 COS_NORM_LIST = 'data/cos_norm_list.json'
