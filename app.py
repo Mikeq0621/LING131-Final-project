@@ -17,8 +17,6 @@ def results():
     page_num = int(request.form['page_num'])
 
     matched_res, num_hits = get_largest_score_doc(parse_query_str(query_str), page_num)
-
-    # (song id, song name, artist, lyric snippet, result score, matched terms)
     docs_data = [get_doc_snippet(doc) for doc in matched_res]
 
     return render_template('results_page.html', query_str=query_str, docs_data=docs_data, page_num=page_num,

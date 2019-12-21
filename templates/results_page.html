@@ -63,7 +63,7 @@
                 <hr>
                 <ol>
                     {% for i in range(matched_num) %}
-
+                    {% autoescape false %}
                     <li value="{{ (page_num - 1) * 10 + i + 1 }}" class="mt-3">
                         <h5 class="mt-4">
                             <a href="/song/{{ docs_data[i].0 }}">{{ docs_data[i].1 }}</a>
@@ -71,10 +71,9 @@
                     </li>
                     <ul>
                         <li>{{ docs_data[i].2 }}</li>
-                        {% autoescape false %}
                         <li>{{ docs_data[i].3 }}</li>
-                        {% endautoescape %}
                     </ul>
+                    {% endautoescape %}
                     {% endfor %}
                 </ol>
 
