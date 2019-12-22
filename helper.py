@@ -47,13 +47,6 @@ def get_stemmed_song_corpus():
     return read_json(STEMMED_SONG_CORPUS)
 
 
-def get_flat_dict_values(dic):
-    res = []
-    for i in dic.values():
-        res.extend(i)
-    return res
-
-
 def get_postings_list(stemmed_corpus):
     """
     get a postings list from corpus

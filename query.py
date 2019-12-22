@@ -33,7 +33,7 @@ def get_largest_score_doc(query_terms, page_idx, largest=10):
     # matched_docs[i][1] = [term for term in query_terms if term not in matched_docs[i][1]]
 
     largest_score_docs = heapq.nlargest(page_idx * largest, matched_docs.items(), lambda x: x[1][0])  # sort by score
-    return largest_score_docs, len(matched_docs)
+    return largest_score_docs[page_idx * largest - 10: page_idx * largest], len(matched_docs)
 
 
 def get_corpus_data(i):
@@ -60,6 +60,6 @@ def get_doc_snippet(doc):
     matched_terms = set([stem(token) for token in doc[1][1]])
     song = highlight_snippet(data['song'], matched_terms)
     artist = highlight_snippet(data['artist'], matched_terms)
-    text = highlight_snippet(data['text'].replace('\n', '<br>'), matched_terms)
+    text = highlight_snippet(data['text'].replace('\n', ' <br> '), matched_terms)
     # song id, song name, artist, lyric snippet, result score, matched terms
     return doc[0], song, artist, text, round(doc[1][0], 5), doc[1][1]

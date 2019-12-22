@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify, render_template_string
+from flask import Flask, render_template, request, jsonify
 from query import *
 
 app = Flask(__name__)
@@ -6,21 +6,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def query():
-    return render_template('results_page.html')
-
-
-# @app.route("/result", methods=['POST'])
-# def results():
-#     """Generate a result set for a query and present the 10 results starting with <page_num>."""
-#
-#     query_str = request.form['query']
-#     page_num = int(request.form['page_num'])
-#
-#     matched_res, num_hits = get_largest_score_doc(parse_query_str(query_str), page_num)
-#     docs_data = [get_doc_snippet(doc) for doc in matched_res]
-#
-#     return render_template('results_page.html', query_str=query_str, docs_data=docs_data, page_num=page_num,
-#                            matched_num=len(matched_res), total_hits=num_hits)
+    return render_template('query_page.html')
 
 
 @app.route('/query')
@@ -45,4 +31,4 @@ def movie_data(song_id):
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()
