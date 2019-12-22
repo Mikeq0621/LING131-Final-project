@@ -1,4 +1,4 @@
-#LING131-Final-project: Song Search Engine
+LING131-Final-project: Song Search Engine
 
 Our project is a song search engine based on vector space model and TF-IDF values. Users are required to input a piece of
 lyrics with or without artist/title. Search results will be displayed in the descending similarity order. For further 
