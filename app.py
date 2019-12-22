@@ -22,9 +22,7 @@ def results():
 
 
 @app.route('/song/<song_id>')
-def movie_data(song_id):
-    """Given the doc_id for a film, present the title and text (optionally structured fields as well)
-    for the movie."""
+def song_data(song_id):
     data = get_corpus_data(song_id)  # Get all of the info for a single movie
     data['text'] = data['text'].replace('\n', '<br>')
     return render_template('doc_data_page.html', data=data)

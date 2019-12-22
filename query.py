@@ -1,36 +1,29 @@
-import datetime
 import heapq
 
-from helper import *
+from index import *
 
-now = datetime.datetime.now()
-# clear_index()
+# Load index file, build if not exist
 corpus = get_song_corpus()
 stemmed_corpus = get_stemmed_song_corpus()
 postings_list = get_postings_list(stemmed_corpus)
 cos_norm_list = get_cos_norm(stemmed_corpus)
 tf_idf_norm_dict = get_tf_idf_norm_dict(stemmed_corpus)
-print(datetime.datetime.now() - now)
 
 
 def parse_query_str(query_str):
-    return [term for term in [stem(token) for token in word_tokenize(query_str)] if
-            (not is_stopwords(term) and term in postings_list)]
+    return [term for term in [stem(token) for token in word_tokenize(query_str)] if term in postings_list]
 
 
 def get_largest_score_doc(query_terms, page_idx, largest=10):
     matched_docs = {}  # {id: [score, [matched_terms]]}
     for term in query_terms:
-        # query_tf_idf = get_tf_idf_dict({0: {'text': query_terms}})
         for i in postings_list.get(term, []):
             if i not in matched_docs:
                 matched_docs[i] = [0, []]
-            # matched_docs[i][0] += query_tf_idf[term][0] * tf_idf_norm_dict[term][i]
             matched_docs[i][0] += tf_idf_norm_dict[term][i]
             matched_docs[i][1].append(term)
-    # for i in matched_docs:
-    # matched_docs[i][0] /= cos_norm_list[i]
-    # matched_docs[i][1] = [term for term in query_terms if term not in matched_docs[i][1]]
+    for i in matched_docs:
+        matched_docs[i][0] /= cos_norm_list[i]
 
     largest_score_docs = heapq.nlargest(page_idx * largest, matched_docs.items(), lambda x: x[1][0])  # sort by score
     return largest_score_docs[page_idx * largest - 10: page_idx * largest], len(matched_docs)
