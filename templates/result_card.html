@@ -1,0 +1,13 @@
+{% for i in range(matched_num) %}
+<div class="card shadow mt-2" style="border-radius: 1rem !important;">
+    {% autoescape false %}
+    {#    <img src="" class="card-img-top" alt="...">#}
+    <div class="card-body">
+        <h5 class="card-title text-center"><a href="/song/{{ docs_data[i].0 }}">{{ docs_data[i].1 }}</a>
+        </h5>
+        <h6 class="text-center">{{ docs_data[i].2 }}</h6>
+        <p class="card-text">{{ docs_data[i].3 }}</p>
+    </div>
+    {% endautoescape %}
+</div>
+{% endfor %}

@@ -10,103 +10,79 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
           integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script type=text/javascript>
+        $(function () {
+            $('#submit').bind('click', function () {
+                $.getJSON('/query', {
+                    query_str: $('input[name="query"]').val(),
+                    page_num: $('input[name="page_num"]').val()
+                }, function (data) {
+                    $("#hits").text(data.total_hits);
+                    $("#card-columns").html(data.card_html);
+                });
+            });
+        });
+    </script>
+    <script type=text/javascript>
+        function query() {
+            $.getJSON('/query', {
+                query_str: $('input[name="query"]').val(),
+                page_num: $('input[name="page_num"]').val()
+            }, function (data) {
+                $("#hits").text('Total hits: ' + data.total_hits);
+                $("#card-columns").html(data.card_html);
+            });
+        }
+    </script>
 </head>
 
 <body>
 <div class="container">
-    <div class="card shadow mx-auto my-4" style="border-radius: 1rem !important;">
+    <div class="card shadow mx-auto my-4" style="border-radius: 1.5rem !important;">
         <div class="card-body">
-            <h3 class="card-title text-center mb-3">2018 Film Search</h3>
+            <h2 class="card-title text-center mt-2 mb-4">FM131</h2>
 
             <div class="col mx-auto">
-                {# Use a form to prompt the user for a query. Send the data to the server using the POST method.
-                The value of action is the path for the url that will be returned #}
-                <form action="result" name="search" method="post">
-                    <div class="row">
-                        <div class="col">
-                            <input type="text" name="query" size=50 value="{{ query_str }}"
-                                   class="form-control" style="border-radius: 1.5rem !important;"
-                                   placeholder="type in words to search">
-                        </div>
-                        <div class="col-auto pl-0">
-                            <input type="submit" value="Search" class="btn btn-primary"
-                                   style="border-radius: 1.5rem !important;">
-                        </div>
+                {#                <form action="result" name="search" method="post" id="search">#}
+                <div class="row my-3">
+                    <div class="col">
+                        <input class="form-control" style="border-radius: 1.5rem !important;"
+                               type="text" name="query" size=50
+                               value="{{ query_str }}" onkeyup="query()"
+                               placeholder="type in words to search">
                     </div>
-
-                    {# Use a hidden variable called page_num to track the result page number.
-                    We will increment this when the next button is selected. #}
-                    <input type="hidden" name="page_num" value="1">
-                </form>
+                    {#                    <div class="col-auto pl-0">#}
+                    {#                        <input id="submit" type="submit" value="Search" class="btn btn-primary"#}
+                    {#                               style="border-radius: 1.5rem !important;">#}
+                    {#                    </div>#}
+                </div>
+                <input type="hidden" name="page_num" value="1">
+                {#                </form>#}
             </div>
         </div>
     </div>
 
-{#    <div class="card shadow-lg mx-auto my-4" style="border-radius: 1rem !important;">#}
-{#        <div class="card-body">#}
-            <h3 class="card-title text-center my-3">Search Results</h3>
+    <div class="col px-0">
+        <h6 id="hits"><br></h6>
+        <hr>
 
-            <div class="col mx-auto">
-                <h5>Total hits: {{ total_hits }}<br></h5>
+        <div class="card-columns" id="card-columns"></div>
 
-                <hr>
-{#                <ol>#}
-{#                    {% for i in range(matched_num) %}#}
-{#                    {% autoescape false %}#}
-{#                    <li value="{{ (page_num - 1) * 10 + i + 1 }}" class="mt-3">#}
-{#                        <h5 class="mt-4">#}
-{#                            <a href="/song/{{ docs_data[i].0 }}">{{ docs_data[i].1 }}</a>#}
-{#                        </h5>#}
-{#                    </li>#}
-{#                    <ul>#}
-{#                        <li>{{ docs_data[i].2 }}</li>#}
-{#                        <li>{{ docs_data[i].3 }}</li>#}
-{#                    </ul>#}
-{#                    {% endautoescape %}#}
-{#                    {% endfor %}#}
-{#                </ol>#}
-
-                <div class="card-columns">
-                    {% for i in range(matched_num) %}
-                        <div class="card shadow mt-2" style="border-radius: 1rem !important;">
-                         {% autoescape false %}
-                            {#                        <img src="" class="card-img-top" alt="...">#}
-                            <div class="card-body">
-                                <h5 class="card-title text-center"><a href="/song/{{ docs_data[i].0 }}">{{ docs_data[i].1 }}</a></h5>
-                                <h6 class="text-center">{{ docs_data[i].2 }}</h6>
-                                <p class="card-text">{{ docs_data[i].3 }}</p>
-                            </div>
-                         {% endautoescape %}
-                        </div>
-                    {% endfor %}
-                </div>
-
-
-                <form action="/result" name="next" method="post" class="mt-5">
-                    <input type="hidden" name="query" value="{{ query_str }}">
-                    <input type="button" value="Back" onclick="javascript:history.back()" class="btn btn-primary"
-                           style="border-radius: 1.5rem !important;"/>
-                    {% if page_num * 10 < total_hits %}
-                        <input type="submit" value="Next" class="btn btn-primary float-right"
-                               style="border-radius: 1.5rem !important;">
-                    {% endif %}
-                    <input type="hidden" name="page_num" value="{{ page_num + 1 }}">
-                </form>
-            </div>
-{#        </div>#}
-{#    </div>#}
+        {#                <form action="/result" name="next" method="post" class="mt-5">#}
+        {#                    <input type="hidden" name="query" value="{{ query_str }}">#}
+        {#                    <input type="button" value="Back" onclick="javascript:history.back()" class="btn btn-primary"#}
+        {#                           style="border-radius: 1.5rem !important;"/>#}
+        {#                    {% if page_num * 10 < total_hits %}#}
+        {#                        <input type="submit" value="Next" class="btn btn-primary float-right"#}
+        {#                               style="border-radius: 1.5rem !important;">#}
+        {#                    {% endif %}#}
+        {#                    <input type="hidden" name="page_num" value="{{ page_num + 1 }}">#}
+        {#                </form>#}
+        {#    </div>#}
+        {#            </div>#}
+    </div>
 </div>
 
-        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
-        integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
-        crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
-        integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
-        crossorigin="anonymous"></script>
 </body>
 </html>
