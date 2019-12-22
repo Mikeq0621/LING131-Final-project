@@ -463,9 +463,4 @@ def read_cvs(path):
 
 
 if __name__ == '__main__':
-    lyrics = read_cvs("data/songdata.csv")
-
-    # print(lemmatize("carings", NOUN))
-    stemmer = nltk.stem.snowball.SnowballStemmer("english")
-    print(stemmer.stem("brrrs"))
-    print(stem("immunoelectrophoretically"))
+    pass
