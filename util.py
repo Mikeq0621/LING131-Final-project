@@ -24,17 +24,17 @@ def is_stopwords(word):
 
 
 def word_tokenize(text):
-    return nltk.re.findall(r"""(
+    words=nltk.re.findall(r"""(
             \w+         # word 
             |\.\.\.     # elipsis
             |\n{2,}     # white lines
             |-+         # dashes
             |[(){}[\]]  # brackets
             |[!?.,:;]   # punctuation
-            |['"`]      # quotes
             |\S+        # fall through pattern
             )""",
                            text, nltk.re.VERBOSE)
+    return [word for word in words if word not in ["!",'?', '.', ',', ':', ':']]
 
 
 def lemmatize(word, pos):
