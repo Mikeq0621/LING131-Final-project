@@ -9,9 +9,15 @@ To install dependencies
 
     $ pip3 install -r requirements.txt
 
+To build the index
+
+    $ python3 index.py
+    
 To start the application 
     
     $ python3 app.py
+    
+_Due to the indexing process, the first time to startup will take longer time (about 2 minutes)_
 
 To use the application 
     
@@ -21,8 +27,4 @@ To quit the application
     
     press ctrl + c
 
-To rebuild the index
 
-    $ python3 index.py
-    
-_Due to the indexing process, the first time to startup will take longer time_
