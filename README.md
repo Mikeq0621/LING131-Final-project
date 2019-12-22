@@ -1,10 +1,10 @@
-LING131-Final-project: Song Search Engine
+# LING131-Final-project: Song Search Engine
 
 Our project is a song search engine based on vector space model and TF-IDF values. Users are required to input a piece of
 lyrics with or without artist/title. Search results will be displayed in the descending similarity order. For further 
 details, please refer to report.pdf.
 
-- Environment Requirements
+**- Environment Requirements**
 
     Click==7.0
 
@@ -22,7 +22,10 @@ details, please refer to report.pdf.
 
     Werkzeug==0.16.0
     
-- How to run
+**- How to run**
 
+    Install required packages. Run -- app.ay.
+    
+    Go to generated url to get access to search page.
 
 
